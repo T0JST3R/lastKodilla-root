@@ -1,9 +1,12 @@
 package controller;
 
 import domain.TaskDto;
+import mapper.TaskMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import service.DbService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,10 +14,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/task")
 public class TaskController {
+    @Autowired
+    private DbService service;
+    @Autowired
+    private TaskMapper taskMapper;
 
+    @RequestMapping(method = RequestMethod.GET, value = "getTasks")
     public List<TaskDto> getTasks() {
 
-        return new ArrayList<>();
+        return taskMapper.mapToTaskDtoList(service.getAllTasks());
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "getTask")
