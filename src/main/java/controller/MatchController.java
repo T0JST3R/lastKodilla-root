@@ -1,6 +1,6 @@
-package controller;
+package com.crud.tasks.controller;
 
-import domain.MatchDto;
+import com.crud.tasks.domain.MatchDto;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;

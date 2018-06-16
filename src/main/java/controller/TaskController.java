@@ -1,14 +1,13 @@
-package controller;
+package com.crud.tasks.controller;
 
-import domain.TaskDto;
-import mapper.TaskMapper;
+import com.crud.tasks.domain.TaskDto;
+import com.crud.tasks.mapper.TaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import service.DbService;
+import com.crud.tasks.service.DbService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
