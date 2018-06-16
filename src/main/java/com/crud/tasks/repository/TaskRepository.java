@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface TaskRepository extends CrudRepository<Task , Long> {
     List<Task> findAll();
-    List<Task> findAllById(Long id);
+    Task getById(Long id);
 }
