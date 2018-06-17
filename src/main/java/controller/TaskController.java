@@ -5,9 +5,10 @@ import mapper.TaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import service.DbService;
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
-import java.util.List;
 
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
+
+import java.util.List;
 
 
 @RestController
@@ -20,7 +21,6 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.GET, value = "getTasks")
     public List<TaskDto> getTasks() {
-
         return taskMapper.mapToTaskDtoList(service.getAllTasks());
     }
 
@@ -30,8 +30,8 @@ public class TaskController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "deleteTask")
-    public TaskDto deleteTask(@RequestParam Long taskId) {
-        return taskMapper.mapToTaskDto(service.deleteTaskById(taskId));
+    public void deleteTask(@RequestParam Long taskId) {
+        service.deleteTaskById(taskId);
 
     }
 
@@ -40,7 +40,7 @@ public class TaskController {
         return taskMapper.mapToTaskDto(service.saveTask(taskMapper.mapToTask(taskDto)));
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "createTask" , consumes = APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST, value = "createTask", consumes = APPLICATION_JSON_VALUE)
     public void createTask(@RequestBody TaskDto taskDto) {
         service.saveTask(taskMapper.mapToTask(taskDto));
 
