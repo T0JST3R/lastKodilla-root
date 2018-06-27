@@ -1,10 +1,9 @@
-package controller;
+package com.crud.tasks.controller;
 
-import domain.TaskDto;
-import mapper.TaskMapper;
+import com.crud.tasks.domain.TaskDto;
+import com.crud.tasks.mapper.TaskMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import service.DbService;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
@@ -15,7 +14,7 @@ import java.util.List;
 @RequestMapping("/v1/task")
 public class TaskController {
     @Autowired
-    private DbService service;
+    private com.crud.tasks.service.DbService service;
     @Autowired
     private TaskMapper taskMapper;
 
