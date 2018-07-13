@@ -82,12 +82,15 @@ public class TrelloClientTest {
         when(restTemplate.getForObject(uri, TrelloCardDto[].class)).thenReturn(null);
 
         //When
-            TrelloCardDto createdTrelloCards = restTemplate.getForObject(uri, TrelloCardDto.class);
+            TrelloCardDto[] createdTrelloCards = restTemplate.getForObject(uri, TrelloCardDto[].class);
+            if (createdTrelloCards==null){
+                createdTrelloCards = new TrelloCardDto[0];
+            }
 
 
         //Then
 
-        assertNull(createdTrelloCards);
+        assertEquals(0 ,createdTrelloCards.length);
     }
 
 }
