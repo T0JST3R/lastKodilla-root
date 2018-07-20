@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'java'
-//apply plugin: 'war'
+apply plugin: 'war'
 
 group = 'com.crud'
 version = '0.0.1-SNAPSHOT'
@@ -30,8 +30,11 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compileOnly "org.projectlombok:lombok:1.18.0"
-//	compile('mysql:mysql-connector-java')
+	compile('mysql:mysql-connector-java')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-	compile('org.postgresql:postgresql')
+//	compile('org.postgresql:postgresql')
 	//providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+//    Swagger
+    compile('io.springfox:springfox-swagger2:2.7.0')
+    compile('io.springfox:springfox-swagger-ui:2.7.0')
 }
