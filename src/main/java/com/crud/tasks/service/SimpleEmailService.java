@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SimpleEmailService {
     @Autowired
-    JavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleEmailService.class);
 
     public void send(Mail mail) {

@@ -5,10 +5,11 @@ import lombok.Getter;
 
 @Getter
 public class Mail {
-    String mailReceiver;
-    String subject;
-    String message;
-    String toCc;
+    private String mailReceiver;
+    private String subject;
+    private String message;
+    private String toCc;
+    public static final String SUBJECT = "Tasks: New Trello Card";
 
     public Mail(String mailReceiver, String subject, String message) {
         this.mailReceiver = mailReceiver;
@@ -19,4 +20,5 @@ public class Mail {
     public void setToCc(String toCc) {
         this.toCc = toCc;
     }
+
 }
