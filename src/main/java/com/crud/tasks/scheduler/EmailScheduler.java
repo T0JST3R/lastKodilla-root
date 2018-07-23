@@ -7,7 +7,6 @@ import com.crud.tasks.service.SimpleEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import static com.crud.tasks.domain.Mail.SUBJECT;
 
 public class EmailScheduler {
     private static final String SUBJECT = "Tasks: once a day email";
@@ -17,15 +16,16 @@ public class EmailScheduler {
     private TaskRepository taskRepository;
     @Autowired
     private AdminConfig adminConfig;
+    private String MESSAGE = "Currently in database u got : ";
 
     @Scheduled(cron = "0 0 10 * * *")
     public void sendInformationEmail() {
         long size = taskRepository.count();
         if (size == 1) {
-            emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, "Currently in database u got : " + size + " task"));
+            emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, MESSAGE + size + " task"));
         } else if (size == 0) {
-            emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, "Currently in database u got no tasks"));
+            emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, MESSAGE + " no tasks"));
         } else
-            emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, "Currently in database u got : " + size + " tasks"));
+            emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, MESSAGE + size + " tasks"));
     }
 }
