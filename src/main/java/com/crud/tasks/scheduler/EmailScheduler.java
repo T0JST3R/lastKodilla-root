@@ -16,16 +16,22 @@ public class EmailScheduler {
     private TaskRepository taskRepository;
     @Autowired
     private AdminConfig adminConfig;
-    private String MESSAGE = "Currently in database u got : ";
+    private static final String MESSAGE = "Currently in database u got : ";
+
 
     @Scheduled(cron = "0 0 10 * * *")
+
     public void sendInformationEmail() {
         long size = taskRepository.count();
+        String msg = "";
         if (size == 1) {
-            emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, MESSAGE + size + " task"));
+            msg = MESSAGE + size + " task";
         } else if (size == 0) {
-            emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, MESSAGE + " no tasks"));
-        } else
-            emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, MESSAGE + size + " tasks"));
+            msg = MESSAGE + " no tasks";
+        } else {
+            msg = MESSAGE + size + " tasks";
+
+        }
+        emailService.send(new Mail(adminConfig.getAdminMail(), SUBJECT, msg));
     }
 }
