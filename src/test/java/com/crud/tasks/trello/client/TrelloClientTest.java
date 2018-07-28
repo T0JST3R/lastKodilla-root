@@ -133,8 +133,11 @@ public class TrelloClientTest {
         List<TrelloBoardDto> trelloBoardDtos = trelloMapper.mapToBoardsDto(trelloBoard);
 
         //Then
-        assertEquals("Test", trelloBoardDtos.get(0).getId());
+        assertEquals("test3", trelloBoardDtos.get(0).getId());
         assertEquals("test", trelloBoardDtos.get(0).getName());
+        assertEquals("test", trelloBoardDtos.get(0).getLists().get(0).getName());
+        assertEquals("Test", trelloBoardDtos.get(0).getLists().get(0).getId());
+        assertFalse(trelloBoardDtos.get(0).getLists().get(0).isClosed());
     }
 
     @Test
