@@ -27,19 +27,24 @@ public class TrelloClientTest {
     @InjectMocks
     private TrelloFacade trelloFacade;
     @InjectMocks
-    TrelloMapper trelloMapper;
+    private TrelloMapper trelloMapper;
     @Mock
     private RestTemplate restTemplate;
     @Mock
     private TrelloConfig trelloConfig;
+    private URI uri;
+    private URI uri1;
 
 
     @Before
-    public void init() {
+    public void init() throws URISyntaxException {
         //given
         when(trelloConfig.getEndPoint()).thenReturn("http://test.com");
         when(trelloConfig.getKey()).thenReturn("test");
         when(trelloConfig.getToken()).thenReturn("test");
+        uri = new URI("http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20Description&pos=top&idList=test_id");
+        uri1 = new URI ("http://test.com/members/tojsterr/boards?key=test&token=test&fields=name,id&lists=all");
+
     }
 
     @Test
@@ -47,8 +52,7 @@ public class TrelloClientTest {
 
         TrelloBoardDto[] trelloBoards = new TrelloBoardDto[1];
         trelloBoards[0] = new TrelloBoardDto("test_id", "test_board", new ArrayList<>());
-        URI url = new URI("http://test.com/members/tojsterr/boards?key=test&token=test&fields=name,id&lists=all");
-        when(restTemplate.getForObject(url, TrelloBoardDto[].class)).thenReturn(trelloBoards);
+        when(restTemplate.getForObject(uri1, TrelloBoardDto[].class)).thenReturn(trelloBoards);
         //when
         List<TrelloBoardDto> fetchedTrelloBoards = trelloClient.getTrelloBoards();
 
@@ -64,7 +68,6 @@ public class TrelloClientTest {
         //Given
         Badges badges = new Badges(2, new AttachmentsByType(new Trello(2, 3)));
         TrelloCardDto trelloCardDto = new TrelloCardDto("Test task", "Test Description", "top", "test_id");
-        URI uri = new URI("http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20Description&pos=top&idList=test_id");
         CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto("1", "Test task", "http://trello.com", badges);
         when(restTemplate.postForObject(uri, null, CreatedTrelloCardDto.class)).thenReturn(createdTrelloCardDto);
 
@@ -82,7 +85,6 @@ public class TrelloClientTest {
     @Test
     public void shouldReturnEmptyList() throws URISyntaxException {
         // Given
-        URI uri = new URI("http://test.com/cards?key=test&token=test&name=Test%20task&desc=Test%20Description&pos=top&idList=test_id");
         when(restTemplate.getForObject(uri, TrelloCardDto[].class)).thenReturn(null);
 
         //When
