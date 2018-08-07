@@ -126,6 +126,7 @@ public class TrelloClientTest {
         trelloList.add(new TrelloList("Test", "test2", false));
         TrelloBoard trelloBoard1 = new TrelloBoard("test3", "test", trelloList);
         trelloBoard.add(trelloBoard1);
+        TrelloBoardDto trelloBoardDto = new TrelloBoardDto();
 
         //When
 
@@ -133,10 +134,12 @@ public class TrelloClientTest {
 
         //Then
         assertEquals("test3", trelloBoardDtos.get(0).getId());
+        assertEquals("test3", trelloBoardDtos.get(0).getId());
         assertEquals("test", trelloBoardDtos.get(0).getName());
         assertEquals("test", trelloBoardDtos.get(0).getLists().get(0).getName());
         assertEquals("Test", trelloBoardDtos.get(0).getLists().get(0).getId());
         assertFalse(trelloBoardDtos.get(0).getLists().get(0).isClosed());
+        assertNull(trelloBoardDto.getId());
     }
 
     @Test

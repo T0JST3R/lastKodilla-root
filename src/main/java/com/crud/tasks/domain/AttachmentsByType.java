@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class AttachmentsByType {
-    Trello trello;
+   private Trello trello;
 
 }

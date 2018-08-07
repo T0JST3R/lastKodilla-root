@@ -31,6 +31,7 @@ public class TrelloValidatorTest {
     @Test
     public void shouldLogSomeInfo(){
         trelloValidator.validateCard(new TrelloCard("test" , "test" , "test" , "1"));
+
     }
 
 }
