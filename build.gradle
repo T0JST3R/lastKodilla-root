@@ -35,7 +35,8 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '1.5.8.RELEASE'
-
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.21.0'
+    compile ('org.springframework.boot:spring-boot-starter-thymeleaf')
 
 //	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 //    Swagger
