@@ -30,4 +30,8 @@ public class DbService {
         return repository.save(task);
     }
 
+    public long taskCounter(){
+        return repository.count();
+    }
+
 }
