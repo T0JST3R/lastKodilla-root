@@ -22,7 +22,7 @@ import java.util.List;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,7 +53,7 @@ public class TaskControllerTest {
         Gson gson = new Gson();
         String jsonContent = gson.toJson(taskDto);
         //When & Then
-        mockMvc.perform(post("/v1/task/createTask")
+        mockMvc.perform(post("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jsonContent))
@@ -70,7 +70,7 @@ public class TaskControllerTest {
         String jsonContent = gson.toJson(task);
 
         //When & Then
-        mockMvc.perform(post("/v1/task/updateTask")
+        mockMvc.perform(put("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jsonContent))
@@ -84,7 +84,7 @@ public class TaskControllerTest {
     @Test
     public void shouldDeleteTask() throws Exception {
         //When & Then
-        mockMvc.perform(post("/v1/task/deleteTask")
+        mockMvc.perform(delete("/v1/tasks/{taskId}")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .sessionAttr("taskId", 3L))
@@ -96,7 +96,7 @@ public class TaskControllerTest {
         when(dbService.saveTask(any())).thenReturn(task);
 
         //When & Then
-        mockMvc.perform(post("/v1/task/getTask")
+        mockMvc.perform(get("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8"))
                 .andExpect(jsonPath("$.id", is(3L)))
@@ -112,7 +112,7 @@ public class TaskControllerTest {
 
         when(dbService.getAllTasks()).thenReturn(tasks);
         //When & Then
-        mockMvc.perform(post("/v1/task/getTasks")
+        mockMvc.perform(post("/v1/tasks/{taskId}")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(3L)))
                 .andExpect(jsonPath("$.name", is("Test")))
