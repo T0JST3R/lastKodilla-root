@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import javax.swing.text.html.Option;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -48,14 +50,9 @@ public class TaskControllerTest {
 
     @Test
     public void shouldSaveTask() throws Exception {
-        TaskDto taskDto = new TaskDto(
-                1L,
-                "title",
-                "content");
-        Task task = new Task(1L, "title", "content");
 
         when(taskMapper.mapToTask(ArgumentMatchers.any(TaskDto.class))).thenReturn(task);
-        when(dbService.saveTask(task)).thenReturn(task);
+        when(dbService.saveTask(ArgumentMatchers.any())).thenReturn(task);
         when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
         Gson gson = new Gson();
         String jsonContent = gson.toJson(taskDto);
@@ -72,7 +69,9 @@ public class TaskControllerTest {
 
     @Test
     public void shouldUpdateTask() throws Exception {
+        when(taskMapper.mapToTask(ArgumentMatchers.any(TaskDto.class))).thenReturn(task);
         when(dbService.saveTask(any())).thenReturn(task);
+        when(taskMapper.mapToTaskDto(ArgumentMatchers.any())).thenReturn(taskDto);
         Gson gson = new Gson();
         String jsonContent = gson.toJson(task);
 
@@ -81,9 +80,9 @@ public class TaskControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jsonContent))
-                .andExpect(jsonPath("$.id", is(3L)))
-                .andExpect(jsonPath("$.name", is("Test")))
-                .andExpect(jsonPath("$.content", is("Test")));
+                .andExpect(jsonPath("$.id", is(3)))
+                .andExpect(jsonPath("$.title", is("TestDto")))
+                .andExpect(jsonPath("$.content", is("testt")));
 
 
     }
@@ -101,25 +100,28 @@ public class TaskControllerTest {
     public void testGetTasksEndpoint() throws Exception {
         List<Task> tasks = new ArrayList<>();
         tasks.add(task);
+        when(taskMapper.mapToTaskDtoList(Collections.singletonList(task))).thenReturn(Collections.singletonList(taskDto));
 
         when(dbService.getAllTasks()).thenReturn(tasks);
         //When & Then
         mockMvc.perform(get("/v1/tasks")
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$[0].id", is(3L)))
-                .andExpect(jsonPath("$[0].name", is("Test")))
-                .andExpect(jsonPath("$[0].content", is("Test")));
+                .andExpect(jsonPath("$[0].id", is(3)))
+                .andExpect(jsonPath("$[0].title", is("TestDto")))
+                .andExpect(jsonPath("$[0].content", is("testt")));
     }
 
     @Test
     public void testGetTaskEndpoint() throws Exception {
         when(dbService.getTask(ArgumentMatchers.any())).thenReturn(Optional.of(task));
         when(taskRepository.findById(anyLong())).thenReturn(Optional.of(task));
+        when(taskMapper.mapToTaskDto(ArgumentMatchers.any())).thenReturn(taskDto);
         //When & Then
-        mockMvc.perform(get("/v1/task/1")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", is(3L)))
-                .andExpect(jsonPath("$.name", is("Test")))
-                .andExpect(jsonPath("$.content", is("Test")));
+        mockMvc.perform(get("/v1/task/1"))
+             //   .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(content().string("error"))
+                .andExpect(jsonPath("$.id", is(3)))
+                .andExpect(jsonPath("$.title", is("TestDto")))
+                .andExpect(jsonPath("$.content", is("testt")));
     }
 }
