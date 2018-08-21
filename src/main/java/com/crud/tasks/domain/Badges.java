@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class Badges {
     private int votes;
     private AttachmentsByType attachmentsByType;
+
+
 }

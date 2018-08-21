@@ -8,6 +8,7 @@ import com.crud.tasks.service.TrelloService;
 import com.crud.tasks.trello.validator.TrelloValidator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -101,6 +102,21 @@ public class TrelloFacadeTest {
                 assertEquals(false, trelloListDto.isClosed());
             });
         });
+    }
+    @Test
+    public void shouldCreateTrelloCard(){
+        TrelloCardDto trelloCardDto = new TrelloCardDto("testName" , "testDescription" , "testPos" , "testListId");
+        TrelloCard trelloCard = new TrelloCard("testName" , "testDescription" , "testPos" , "testListId");
+        CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto("idTest" , "testName" , "testShortUrl" , new Badges(4 , new AttachmentsByType(new Trello(4 ,5))));
+        when(trelloMapper.mapToCard(trelloCardDto)).thenReturn(trelloCard);
+        when(trelloService.createTrelloCard(ArgumentMatchers.any())).thenReturn(createdTrelloCardDto);
+        CreatedTrelloCardDto createdTrelloCardDto1 = trelloFacade.createCard(trelloCardDto);
+
+
+        assertEquals("testName" , createdTrelloCardDto1.getName());
+        assertEquals("idTest" , createdTrelloCardDto1.getId());
+        assertEquals("testShortUrl" , createdTrelloCardDto1.getShortUrl());
+
     }
 
 

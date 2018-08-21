@@ -24,22 +24,22 @@ public class DbServiceTest {
     DbService dbService;
     @Mock
     TaskRepository taskRepository;
-    Task task = new Task(3L , "test"  , "test");
+    Task task = new Task(3L, "test", "test");
 
 
     @Test
-    public void getAllTasks() {
+    public void getAllTasksTest() {
         //Given
         List<Task> tasks1 = new ArrayList<>();
         tasks1.add(task);
         when(taskRepository.findAll()).thenReturn(tasks1);
-      List<Task> tasks = dbService.getAllTasks();
-        assertEquals(3L , tasks.get(0).getId() , 0);
+        List<Task> tasks = dbService.getAllTasks();
+        assertEquals(3L, tasks.get(0).getId(), 0);
 
     }
 
     @Test
-    public void getTask() {
+    public void getTaskTest() {
         //Given
         when(taskRepository.findById(2L)).thenReturn(Optional.of(task));
         Optional<Task> task = dbService.getTask(2L);
@@ -49,18 +49,26 @@ public class DbServiceTest {
     }
 
     @Test
-    public void deleteTaskById() {
+    public void deleteTaskByIdTest() {
         when(taskRepository.deleteTaskById(3L)).thenReturn(task);
         Task task = dbService.deleteTaskById(3L);
 
-        assertEquals(3L , task.getId() , 0);
+        assertEquals(3L, task.getId(), 0);
     }
 
     @Test
-    public void saveTask() {
+    public void saveTaskTest() {
         when(taskRepository.save(task)).thenReturn(task);
         Task taskk = dbService.saveTask(task);
 
-        assertEquals(3L , taskk.getId(), 0);
+        assertEquals(3L, taskk.getId(), 0);
+    }
+
+    @Test
+    public void countTest() {
+        when(taskRepository.count()).thenReturn(44L);
+        Long result = dbService.taskCounter();
+
+        assertEquals(44L, result, 0);
     }
 }

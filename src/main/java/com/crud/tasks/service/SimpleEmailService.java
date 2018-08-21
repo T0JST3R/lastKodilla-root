@@ -16,7 +16,7 @@ public class SimpleEmailService {
     @Autowired
     private JavaMailSender javaMailSender;
     @Autowired
-    MailCreatorService mailCreatorService;
+    private MailCreatorService mailCreatorService;
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleEmailService.class);
 
     public void send(Mail mail) {
@@ -28,20 +28,15 @@ public class SimpleEmailService {
             LOGGER.error(" MAIL HAS BEEN NOT SENT", e.getMessage());
         }
     }
-    private MimeMessagePreparator createMimeMessage(final Mail mail){
+
+    private MimeMessagePreparator createMimeMessage(final Mail mail) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailReceiver());
             messageHelper.setSubject(mail.getSubject());
-            messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()) , true);
+            messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
         };
     }
 
-    private SimpleMailMessage createMessage(Mail mail) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setText(mail.getMessage());
-        mailMessage.setSubject(mail.getSubject());
-        mailMessage.setTo(mail.getMailReceiver());
-        return mailMessage;
-    }
+
 }

@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class AttachmentsByType {
    private Trello trello;
 
+
 }
