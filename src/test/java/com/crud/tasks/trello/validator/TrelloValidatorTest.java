@@ -17,21 +17,18 @@ public class TrelloValidatorTest {
     @InjectMocks
     private TrelloValidator trelloValidator;
     @Test
-    public void shouldReturnOneElementList() {
+    public void trelloValidatorTest() {
         List<TrelloBoard> trelloBoards = new ArrayList<>();
         List<TrelloList> trelloLists = new ArrayList<>();
         trelloLists.add(new TrelloList("1" , "test" , false));
         trelloBoards.add(new TrelloBoard("1" , "NOT_A_TEST" , trelloLists));
+        trelloBoards.add(new TrelloBoard("2" , "Test" , trelloLists));
 
         List<TrelloBoard> boards = trelloValidator.validateTrelloBoards(trelloBoards);
 
         assertEquals(1 , boards.size());
 
     }
-    @Test
-    public void shouldLogSomeInfo(){
-        trelloValidator.validateCard(new TrelloCard("test" , "test" , "test" , "1"));
 
-    }
 
 }
