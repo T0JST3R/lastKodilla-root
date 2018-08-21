@@ -43,14 +43,15 @@ public class TaskControllerTest {
     @MockBean
     private DbService dbService;
     @MockBean
-    TaskMapper taskMapper;
-    @Mock
-    TaskRepository taskRepository;
+    private TaskMapper taskMapper;
+    @MockBean
+    private TaskRepository taskRepository;
 
 
     @Test
     public void shouldSaveTask() throws Exception {
 
+        when(taskMapper.mapToTask(ArgumentMatchers.any())).thenReturn(task);
         when(taskMapper.mapToTask(ArgumentMatchers.any(TaskDto.class))).thenReturn(task);
         when(dbService.saveTask(ArgumentMatchers.any())).thenReturn(task);
         when(taskMapper.mapToTaskDto(task)).thenReturn(taskDto);
@@ -61,9 +62,9 @@ public class TaskControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(jsonContent))
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.title", is("title")))
-                .andExpect(jsonPath("$.content", is("content")));
+                .andExpect(jsonPath("$.id", is(3)))
+                .andExpect(jsonPath("$.title", is("TestDto")))
+                .andExpect(jsonPath("$.content", is("testt")));
 
     }
 
@@ -118,7 +119,7 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskDto(ArgumentMatchers.any())).thenReturn(taskDto);
         //When & Then
         mockMvc.perform(get("/v1/task/1"))
-             //   .contentType(MediaType.APPLICATION_JSON))
+                //   .contentType(MediaType.APPLICATION_JSON))
 //                .andExpect(content().string("error"))
                 .andExpect(jsonPath("$.id", is(3)))
                 .andExpect(jsonPath("$.title", is("TestDto")))
